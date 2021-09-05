@@ -18,7 +18,12 @@
 
             <!-- Blog Entries Column -->
             <div class="col-md-8 ">
-                <h1 class="text-center" style="color:white;">Welcome to Blogbook</h1>
+                <?php
+            if (isset($_SESSION['username'])) {
+                $titlehead="PRIVATE POSTS";}else{
+                    $titlehead="PUBLIC POSTS";
+                } ?>
+                <h1 class="text-center" style="color:white;"><?php echo $titlehead ?></h1>
                 <?php
                 $results_per_page = 5;
                 if (isset($_GET['page'])) {
@@ -35,6 +40,22 @@
                     $page_1 = ($page - 1) * 5;
                     $page_2 = $page_1 + 8;
                 }
+                if (isset($_SESSION['username'])) {
+                    $post_count_query = "SELECT * FROM posts WHERE post_status='draft'";
+                    $find_count = mysqli_query($connection, $post_count_query);
+                    $count = mysqli_num_rows($find_count);
+    
+                    $count = ceil($count / 5);
+    
+    
+    
+                    $query = "SELECT * FROM posts WHERE post_status='draft' LIMIT " . $page_1 . ',' . $results_per_page;
+                    $select_all_posts_query = mysqli_query($connection, $query);
+            
+                }else{
+
+              
+
 
 
                 $post_count_query = "SELECT * FROM posts WHERE post_status='published'";
@@ -47,7 +68,7 @@
 
                 $query = "SELECT * FROM posts WHERE post_status='published' LIMIT " . $page_1 . ',' . $results_per_page;
                 $select_all_posts_query = mysqli_query($connection, $query);
-
+                }
 
                 while ($row = mysqli_fetch_assoc($select_all_posts_query)) {
                     $post_title = $row['post_title'];
@@ -64,7 +85,7 @@
                     $select_categories_id = mysqli_query($connection, $query);
                     $cat = mysqli_fetch_assoc($select_categories_id);
                     $post_category = $cat['cat_title'];
-                    if ($post_status == 'published') {
+                   
 
 
 
@@ -175,7 +196,7 @@
                             </div>
                         </section>
 
-                <?php  }
+               <?php 
                 } ?>
 
 
