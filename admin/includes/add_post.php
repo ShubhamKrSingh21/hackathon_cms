@@ -73,8 +73,8 @@ if (isset($_POST['create_post'])) {
         <select name="post_status" id="">
 
             <option value="draft">Post Status</option>
-            <option value="draft">Draft</option>
-            <option value="published">Publish</option>
+            <option value="published">PUBLIC</option>
+            <option value="draft">PRIVATE</option>
 
         </select>
     </div>
